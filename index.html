@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task List</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            text-align: center;
+            background: #fafafa;
+            color: #222;
+        }
+
+        .completed {
+            color: #999;
+            text-decoration: line-through;
+        }
+
+        .task {
+            margin: 10px auto;
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        input {
+            padding: 5px;
+        }
+
+        button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <input type="text" placeholder="Enter text" id="input">
+
+    <button onclick="createtask()">Create</button>
+
+    <h1>Task List</h1>
+
+    <div id="list"></div>
+
+    <script>
+
+function createtask() {
+let task = document.getElementById("input").value.trim();
+if (task == "") {
+    alert("Enter the text");
+    return;
+            }
+let tasks = document.querySelectorAll(".task h3");
+	for (let t of tasks) {
+                if (t.textContent.toLowerCase() == task.toLowerCase()) {
+                    alert("Task already exists");
+                    return;
+                }
+            }
+
+let div = document.createElement("div");
+div.className = "task";
+ let art = document.createElement("h3");
+ art.textContent = task;
+ let del = document.createElement("button");
+ del.textContent = "Delete";
+
+ del.onclick = function() {
+ div.remove();
+ };
+
+ let complete = document.createElement("button");
+ complete.textContent = "Complete";
+
+            complete.onclick = function() {
+                art.classList.toggle("completed");
+            };
+
+            let edit = document.createElement("button");
+            edit.textContent = "Edit";
+
+            edit.onclick = function() {
+
+                let newtask = prompt("Enter new task", art.textContent);
+
+                if (newtask == null || newtask.trim() == "") {
+                    return;
+                }
+
+                newtask = newtask.trim();
+
+                for (let t of document.querySelectorAll(".task h3")) {
+                    if (t !== art &&
+                        t.textContent.toLowerCase() == newtask.toLowerCase()) {
+                        alert("Task already exists");
+                        return;
+                    }
+                }
+
+                art.textContent = newtask;
+            };
+            div.appendChild(art);
+            div.appendChild(edit);
+            div.appendChild(del);
+            div.appendChild(complete);
+            document.getElementById("list").appendChild(div);
+            document.getElementById("input").value = "";
+
+        }
+
+    </script>
+
+</body>
+</html>
